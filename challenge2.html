@@ -1,0 +1,94 @@
+<html>
+	<head>
+	</head>
+
+	<body>
+		<h1>Javascript challenge 2</h1>
+		
+		<p>
+			<label for="size">Size</label>
+			<select id="size" onChange = "update()">	
+			</select>
+		</p>
+
+		<p>
+			<label for="base">base</label>
+			<select id="base" onChange="update()">	
+			</select>
+		</p>
+
+		<p>
+			<label for="toppingsList">toppings</label>
+			<div id="toppingsList"></div>    
+		</p>
+
+		<p id = "results">Current price : $0.00</p>
+
+		<script>
+			const sizes=["small","medium","large"];
+			const bases=["thin and crispy", "deep pan"];
+			const toppings=["mushrooms","olives","pineapple","jalepenos","green pepper"];
+
+			const sizeSelector = document.getElementById("size");
+			for (const [idx, s] of sizes.entries()) {
+				sizeSelector.options[sizeSelector.options.length] = new Option(s,idx);
+			}
+
+			const baseSelector = document.getElementById("base");
+			for (b of bases) {
+				baseSelector.options[baseSelector.options.length] = new Option(b,b);
+			}
+
+			const toppingsList = document.getElementById("toppingsList");
+			for (const[idx,t] of toppings.entries()) {
+				toppingsList.innerHTML = toppingsList.innerHTML + `<input type="checkbox" id="topping-${idx}" name="toppings" onChange="update()"> ${t} <br>`	
+			}
+
+			
+			let selectedToppings = [];
+			
+
+function update() {
+	let price = 6.99;
+	let sizeIndex = +document.getElementById("size").value;
+	if (sizeIndex === 1) price += 1.50;
+	if (sizeIndex === 2) price += 2.50;
+	
+	let selectedToppings = [];
+	for (let idx = 0; idx < toppings.length; idx++) {
+		if (document.getElementById(`topping-${idx}`).checked) {
+			selectedToppings.push (toppings[idx]);
+		}
+	}
+	
+	const chargeableToppings = selectedToppings.length - 2;
+	if (chargeableToppings > 0) {
+		price += (chargeableToppings * 0.79);
+	}
+	
+	const results = document.getElementById("results");
+	results.innerHTML =`Current price : $${price.toFixed(2)}`;
+
+	const pizza = {size : sizes[sizeIndex], base: base.value, toppings : selectedToppings};
+	console.log(pizza);
+
+}
+
+update();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
